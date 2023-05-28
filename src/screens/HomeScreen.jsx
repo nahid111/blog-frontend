@@ -12,7 +12,6 @@ const HomeScreen = () => {
   const handleGetUser = async () => {
     try {
       const res = await userDetails().unwrap();
-      console.log(res);
       dispatch(setCredentials({ ...userInfo, ...res }));
     } catch (err) {
       console.log(err?.data?.message || err.error);

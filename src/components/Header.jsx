@@ -4,6 +4,7 @@ import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -14,9 +15,11 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       dispatch(logout());
+      toast.success("Successfully signed out");
       navigate("/login");
     } catch (err) {
       console.error(err);
+      toast.error(err);
     }
   };
 
