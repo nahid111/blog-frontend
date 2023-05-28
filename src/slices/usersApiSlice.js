@@ -3,6 +3,13 @@ const URL_PREFIX = "/api/v1";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    register: builder.mutation({
+      query: (data) => ({
+        url: `${URL_PREFIX}/sign-up/`,
+        method: "POST",
+        body: data
+      })
+    }),
     login: builder.mutation({
       query: (data) => ({
         url: `${URL_PREFIX}/token/`,
@@ -19,4 +26,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   })
 });
 
-export const { useLoginMutation, useUserDetailsMutation } = userApiSlice;
+export const { useLoginMutation, useUserDetailsMutation, useRegisterMutation } = userApiSlice;
