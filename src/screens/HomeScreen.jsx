@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useUserDetailsMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import Hero from "../components/Hero";
+import Loader from "../components/Loader";
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -26,7 +27,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Hero />
+      {isLoading ? <Loader /> : <Hero />}
     </>
   );
 };
