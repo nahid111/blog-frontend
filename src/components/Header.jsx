@@ -32,7 +32,12 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="me-auto">
+              <LinkContainer to="/posts">
+                <Nav.Link>Posts</Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Nav>
               {userInfo ? (
                 <>
                   <NavDropdown title={userInfo.name} id="username">
