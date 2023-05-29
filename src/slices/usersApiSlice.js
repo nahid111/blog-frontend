@@ -3,11 +3,10 @@ const URL_PREFIX = "/api/v1";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation({
-      query: (data) => ({
-        url: `${URL_PREFIX}/sign-up/`,
-        method: "POST",
-        body: data
+    userDetails: builder.mutation({
+      query: () => ({
+        url: `${URL_PREFIX}/users/current/`,
+        method: "GET"
       })
     }),
     login: builder.mutation({
@@ -17,10 +16,11 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data
       })
     }),
-    userDetails: builder.mutation({
+    register: builder.mutation({
       query: (data) => ({
-        url: `${URL_PREFIX}/users/current/`,
-        method: "GET"
+        url: `${URL_PREFIX}/sign-up/`,
+        method: "POST",
+        body: data
       })
     }),
     updateUser: builder.mutation({
