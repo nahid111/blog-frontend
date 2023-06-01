@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useCreatePostsMutation } from "../slices/postsApiSlice";
+import {
+  useCreatePostsMutation,
+  useGetPostsMutation
+} from "../slices/postsApiSlice";
 import { setPosts } from "../slices/postsSlice";
+import { useGetCategoriesMutation } from "../slices/categoriesApiSlice";
+import { setCategories } from "../slices/categoriesSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
@@ -14,16 +19,39 @@ const PostsAddScreen = () => {
   const [cvrImgUrl, setCvrImgUrl] = useState("");
   const [cats, setCats] = useState([]);
 
-  const { postList } = useSelector((state) => state.posts);
+  const { categoryList } = useSelector((state) => state.categories);
+  const [getCategories] = useGetCategoriesMutation();
+  const [getPosts] = useGetPostsMutation();
   const [createPost, { isLoading }] = useCreatePostsMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleCatsChange = (e) => {
+  useEffect(() => {
+    getCategories()
+      .unwrap()
+      .then((res) => {
+        dispatch(setCategories([...res]));
+      });
+  }, []);
+
+  const handleCategorySelectChange = (e) => {
     e.preventDefault();
     const options = e.target.selectedOptions;
     const vals = [].slice.call(options).map((item) => parseInt(item.value));
     setCats(vals);
+  };
+
+  const refreshPosts = async () => {
+    try {
+      const res = await getPosts().unwrap();
+      dispatch(setPosts([...res]));
+      navigate("/posts");
+    } catch (err) {
+      if (err.originalStatus === 500) {
+        toast.error("Something went wrong!", { theme: "colored" });
+      }
+      console.log(err);
+    }
   };
 
   const submitHandler = async (e) => {
@@ -35,8 +63,9 @@ const PostsAddScreen = () => {
         cover_img_url: cvrImgUrl,
         categories: cats
       }).unwrap();
-      dispatch(setPosts([...postList, res]));
-      navigate("/posts");
+      if (res) {
+        await refreshPosts();
+      }
     } catch (err) {
       if (err.originalStatus === 500) {
         toast.error("Something went wrong!", { theme: "colored" });
@@ -88,19 +117,24 @@ const PostsAddScreen = () => {
               />
             </Form.Group>
 
-            <Form.Group className="my-3" controlId="body">
-              <Form.Label>Categories</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                multiple
-                value={cats}
-                onChange={handleCatsChange}
-              >
-                <option value="1">Tech</option>
-                <option value="2">Fun</option>
-                <option value="6">Math</option>
-              </Form.Select>
-            </Form.Group>
+            {categoryList.length > 0 && (
+              <Form.Group className="my-3" controlId="body">
+                <Form.Label>Categories</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  multiple
+                  value={cats}
+                  onChange={handleCategorySelectChange}
+                  required
+                >
+                  {categoryList.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.title}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            )}
 
             <Button type="submit" variant="primary" className="mt-3">
               Upload
