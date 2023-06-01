@@ -13,7 +13,8 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "GET" })
     }),
     deletePost: builder.mutation({
-      query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" })
+      query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" }),
+      validateStatus: (response) => response.status === 204
     }),
     updatePost: builder.mutation({
       query: (data, id) => ({

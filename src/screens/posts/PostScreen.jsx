@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useGetPostMutation } from "../../slices/postsApiSlice";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
-import { FaTrash } from "react-icons/fa";
+import PostDeleteButton from "./PostDeleteButton";
 
 const PostScreen = () => {
   let { postId } = useParams();
@@ -24,11 +24,6 @@ const PostScreen = () => {
     }
   };
 
-  const removePost = (e) => {
-    e.preventDefault();
-    console.log(post.id);
-  };
-
   useEffect(() => {
     fetchPost();
   }, []);
@@ -43,13 +38,7 @@ const PostScreen = () => {
         </div>
         <div className="col-md-4 text-end">
           {userInfo && userInfo.email === post.author && (
-            <button
-              type="button"
-              className="btn btn-danger btn-lg"
-              onClick={removePost}
-            >
-              <FaTrash /> Delete
-            </button>
+            <PostDeleteButton postId={postId} />
           )}
         </div>
       </div>
