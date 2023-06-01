@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useCreatePostsMutation,
   useGetPostsMutation
-} from "../slices/postsApiSlice";
-import { setPosts } from "../slices/postsSlice";
-import { useGetCategoriesMutation } from "../slices/categoriesApiSlice";
-import { setCategories } from "../slices/categoriesSlice";
+} from "../../slices/postsApiSlice";
+import { setPosts } from "../../slices/postsSlice";
+import { useGetCategoriesMutation } from "../../slices/categoriesApiSlice";
+import { setCategories } from "../../slices/categoriesSlice";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 
 const PostsAddScreen = () => {
   const [title, setTitle] = useState("");

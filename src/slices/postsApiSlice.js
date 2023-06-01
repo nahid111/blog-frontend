@@ -9,8 +9,11 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     createPosts: builder.mutation({
       query: (data) => ({ url: URL_PREFIX, method: "POST", body: data })
     }),
+    getPost: builder.mutation({
+      query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "GET" })
+    }),
     deletePost: builder.mutation({
-      query: (data, id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" })
+      query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" })
     }),
     updatePost: builder.mutation({
       query: (data, id) => ({
@@ -24,6 +27,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetPostsMutation,
+  useGetPostMutation,
   useCreatePostsMutation,
   useDeletePostMutation,
   useUpdatePostMutation

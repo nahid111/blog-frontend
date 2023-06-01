@@ -10,8 +10,9 @@ import HomeScreen from "./screens/HomeScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
-import PostsScreen from "./screens/PostsScreen.jsx";
-import PostsAddScreen from "./screens/PostsAddScreen.jsx";
+import PostsScreen from "./screens/posts/PostsScreen.jsx";
+import PostScreen from "./screens/posts/PostScreen.jsx";
+import PostsAddScreen from "./screens/posts/PostsAddScreen.jsx";
 import NotFound from "./components/NotFound.jsx";
 
 const router = createBrowserRouter(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/posts" element={<PostsScreen />} />
+        <Route path="/posts/:postId" element={<PostScreen />} />
         <Route path="" element={<PrivateRoute />}>
           <Route path="/posts/add" element={<PostsAddScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
