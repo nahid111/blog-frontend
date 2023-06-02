@@ -4,7 +4,8 @@ const URL_PREFIX = "/api/v1/posts/";
 export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPost: builder.query({
-      query: (id) => `${URL_PREFIX}/${id}`
+      query: (id) => `${URL_PREFIX}/${id}`,
+      providesTags: ["PostTag"]
     }),
     getPosts: builder.query({
       query: () => URL_PREFIX,
@@ -20,16 +21,20 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["PostsTag"]
     }),
     updatePost: builder.mutation({
-      query: (data, id) => ({
-        url: `${URL_PREFIX}/${id}`,
-        method: "PUT",
+      query: ({ data, id }) => ({
+        url: `${URL_PREFIX}/${id}/`,
+        method: "PATCH",
         body: data
       }),
-      invalidatesTags: ["PostsTag"]
+      invalidatesTags: ["PostsTag", "PostTag", "PostCategoriesTag"]
     }),
     getPostComments: builder.query({
       query: (id) => `${URL_PREFIX}/${id}/comments/`,
       providesTags: ["PostCommentsTag"]
+    }),
+    getPostCategories: builder.query({
+      query: (id) => `${URL_PREFIX}/${id}/categories/`,
+      providesTags: ["PostCategoriesTag"]
     })
   })
 });
@@ -40,5 +45,6 @@ export const {
   useCreatePostsMutation,
   useDeletePostMutation,
   useUpdatePostMutation,
-  useGetPostCommentsQuery
+  useGetPostCommentsQuery,
+  useGetPostCategoriesQuery
 } = postsApiSlice;

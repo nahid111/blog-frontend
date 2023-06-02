@@ -5,7 +5,8 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
       query: () => URL_PREFIX,
-      providesTags: ["CategoriesTag"]
+      providesTags: ["CategoriesTag"],
+      invalidatesTags: ["PostCategoriesTag"]
     }),
     createCategory: builder.mutation({
       query: (data) => ({ url: URL_PREFIX, method: "POST", body: data }),

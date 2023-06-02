@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 import { useGetPostQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import PostDelete from "../../components/PostDelete";
 import Comments from "../../components/Comments";
+import { FaPencilAlt } from "react-icons/fa";
 
 const Post = () => {
   let { postId } = useParams();
@@ -20,7 +22,14 @@ const Post = () => {
         </div>
         <div className="col-md-4 text-end">
           {userInfo && userInfo.email === post.author && (
-            <PostDelete postId={postId} />
+            <>
+              <PostDelete postId={postId} />
+              <LinkContainer to={`/posts/${postId}/update`}>
+                <button type="button" className="btn btn-lg btn-success mx-2">
+                  <FaPencilAlt /> Update
+                </button>
+              </LinkContainer>
+            </>
           )}
         </div>
       </div>

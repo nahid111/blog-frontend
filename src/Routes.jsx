@@ -13,6 +13,7 @@ import Profile from "./screens/Profile.jsx";
 import PostsList from "./screens/posts/PostsList.jsx";
 import Post from "./screens/posts/Post.jsx";
 import PostsAdd from "./screens/posts/PostsAdd.jsx";
+import PostsUpdate from "./screens/posts/PostsUpdate.jsx";
 import NotFound from "./components/NotFound.jsx";
 
 const router = createBrowserRouter(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
         <Route path="/posts/:postId" element={<Post />} />
         <Route path="" element={<PrivateRoute />}>
           <Route path="/posts/add" element={<PostsAdd />} />
+          <Route path="/posts/:postId/update" element={<PostsUpdate />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<NotFound />} />
