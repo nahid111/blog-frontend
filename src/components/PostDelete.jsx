@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useDeletePostMutation } from "../../slices/postsApi";
+import { useDeletePostMutation } from "../slices/postsApi";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
+import PropTypes from "prop-types";
 
-const PostDeleteButton = ({ postId }) => {
+const PostDelete = ({ postId }) => {
   const navigate = useNavigate();
   const [deletePost, { isLoading }] = useDeletePostMutation();
 
@@ -30,4 +31,8 @@ const PostDeleteButton = ({ postId }) => {
   );
 };
 
-export default PostDeleteButton;
+PostDelete.propTypes = {
+  postId: PropTypes.number
+};
+
+export default PostDelete;

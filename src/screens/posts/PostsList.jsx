@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 
-const PostsScreen = () => {
+const PostsList = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { data: postList, isLoading, isFetching } = useGetPostsQuery();
 
@@ -11,9 +11,9 @@ const PostsScreen = () => {
     <Loader />
   ) : postList.length > 0 ? (
     <>
-      <div className="row">
+      <div className="row mt-4">
         <div className="col-md-8">
-          <h1 className="fs-1">Posts</h1>
+          <h1 className="fs-1">All Posts</h1>
         </div>
         <div className="col-md-4 text-end">
           {userInfo && (
@@ -63,4 +63,4 @@ const PostsScreen = () => {
   );
 };
 
-export default PostsScreen;
+export default PostsList;

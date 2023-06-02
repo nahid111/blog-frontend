@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
-import { useGetPostCommentsQuery } from "../../slices/postsApi";
-import PostCommentsAdd from "./PostCommentsAdd";
+import { useGetPostCommentsQuery } from "../slices/postsApi";
+import CommentsAdd from "./CommentsAdd";
+import PropTypes from "prop-types";
 
-const PostComments = ({ postId }) => {
+const Comments = ({ postId }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const {
     data: comments,
@@ -19,7 +20,7 @@ const PostComments = ({ postId }) => {
           <div className="card shadow-0 border bg-light">
             <div className="card-body p-4">
               {userInfo ? (
-                <PostCommentsAdd postId={postId} authorId={userInfo.id} />
+                <CommentsAdd postId={postId} authorId={userInfo.id} />
               ) : (
                 <p className="text-primary">Sign in to add a comment</p>
               )}
@@ -60,4 +61,8 @@ const PostComments = ({ postId }) => {
   );
 };
 
-export default PostComments;
+Comments.propTypes = {
+  postId: PropTypes.number
+};
+
+export default Comments;

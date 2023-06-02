@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useUpdateUserMutation } from "../slices/usersApi";
 import { setCredentials } from "../slices/authSlice";
 
-const ProfileScreen = () => {
+const Profile = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -65,4 +65,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default Profile;

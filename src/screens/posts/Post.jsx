@@ -2,10 +2,10 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useGetPostQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
-import PostDeleteButton from "./PostDeleteButton";
-import PostComments from "./PostComments";
+import PostDelete from "../../components/PostDelete";
+import Comments from "../../components/Comments";
 
-const PostScreen = () => {
+const Post = () => {
   let { postId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
   const { data: post, isLoading, isFetching } = useGetPostQuery(postId);
@@ -20,7 +20,7 @@ const PostScreen = () => {
         </div>
         <div className="col-md-4 text-end">
           {userInfo && userInfo.email === post.author && (
-            <PostDeleteButton postId={postId} />
+            <PostDelete postId={postId} />
           )}
         </div>
       </div>
@@ -46,11 +46,11 @@ const PostScreen = () => {
         <div className="col-md-12">{post.body}</div>
       </div>
 
-      <PostComments postId={postId} />
+      <Comments postId={postId} />
     </>
   ) : (
     <h1 className="text-danger">No post found</h1>
   );
 };
 
-export default PostScreen;
+export default Post;

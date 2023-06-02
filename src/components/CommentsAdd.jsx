@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useCreateCommentMutation } from "../../slices/commentsApi";
+import { useCreateCommentMutation } from "../slices/commentsApi";
 import { Form, Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 
-const PostCommentsAdd = ({ postId, authorId }) => {
+const CommentsAdd = ({ postId, authorId }) => {
   const [body, setBody] = useState("");
   const [createComment, { isLoading }] = useCreateCommentMutation();
 
@@ -50,4 +51,9 @@ const PostCommentsAdd = ({ postId, authorId }) => {
   );
 };
 
-export default PostCommentsAdd;
+CommentsAdd.propTypes = {
+  postId: PropTypes.number,
+  authorId: PropTypes.number
+};
+
+export default CommentsAdd;
