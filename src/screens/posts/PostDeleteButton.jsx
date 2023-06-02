@@ -1,21 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useDeletePostMutation } from "../../slices/postsApiSlice";
-import { setPosts } from "../../slices/postsSlice";
+import { useDeletePostMutation } from "../../slices/postsApi";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
 
 const PostDeleteButton = ({ postId }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [deletePost, { isLoading }] = useDeletePostMutation();
 
   const removePost = async (e) => {
     e.preventDefault();
     if (window.confirm("Delete the item?")) {
-      await deletePost(postId).unwrap();
+      await deletePost(postId);
       toast.success("Post deleted");
-      dispatch(setPosts([]));
       navigate("/posts");
     }
   };

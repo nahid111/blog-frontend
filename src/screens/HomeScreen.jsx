@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useUserDetailsMutation } from "../slices/usersApiSlice";
+import { useUserDetailsMutation } from "../slices/usersApi";
 import { setCredentials } from "../slices/authSlice";
 import Hero from "../components/Hero";
 import Loader from "../components/Loader";

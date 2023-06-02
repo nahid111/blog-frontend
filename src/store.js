@@ -1,8 +1,6 @@
 import { configureStore, isRejectedWithValue } from "@reduxjs/toolkit";
 import { apiSlice } from "./slices/apiSlice";
 import authReducer from "./slices/authSlice";
-import postsReducer from "./slices/postsSlice";
-import categoriesReducer from "./slices/categoriesSlice";
 import { toast } from "react-toastify";
 
 const rtkQueryErrorLogger = (apiSlice) => (next) => (action) => {
@@ -29,8 +27,6 @@ const rtkQueryErrorLogger = (apiSlice) => (next) => (action) => {
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    posts: postsReducer,
-    categories: categoriesReducer,
     [apiSlice.reducerPath]: apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>

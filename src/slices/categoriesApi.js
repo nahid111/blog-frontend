@@ -3,20 +3,23 @@ const URL_PREFIX = "/api/v1/categories/";
 
 export const categoriesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCategories: builder.mutation({
-      query: () => ({ url: URL_PREFIX, method: "GET" })
+    getCategories: builder.query({
+      query: () => URL_PREFIX,
+      providesTags: ["CategoriesTag"]
     }),
     createCategory: builder.mutation({
-      query: (data) => ({ url: URL_PREFIX, method: "POST", body: data })
+      query: (data) => ({ url: URL_PREFIX, method: "POST", body: data }),
+      invalidatesTags: ["CategoriesTag"]
     }),
     deleteCategory: builder.mutation({
-      query: (data, id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" })
+      query: (id) => ({ url: `${URL_PREFIX}/${id}/`, method: "DELETE" }),
+      invalidatesTags: ["CategoriesTag"]
     })
   })
 });
 
 export const {
-  useGetCategoriesMutation,
+  useGetCategoriesQuery,
   useCreateCategoryMutation,
   useDeleteCategoryMutation
 } = categoriesApiSlice;

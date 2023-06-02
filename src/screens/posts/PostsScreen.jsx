@@ -1,28 +1,13 @@
-import { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { useGetPostsMutation } from "../../slices/postsApiSlice";
-import { setPosts } from "../../slices/postsSlice";
+import { useSelector } from "react-redux";
+import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 
 const PostsScreen = () => {
-  const dispatch = useDispatch();
-  const { postList } = useSelector((state) => state.posts);
   const { userInfo } = useSelector((state) => state.auth);
-  const [getPosts, { isLoading }] = useGetPostsMutation();
+  const { data: postList, isLoading, isFetching } = useGetPostsQuery();
 
-  useEffect(() => {
-    if (!postList.length > 0) {
-      fetchPostsList();
-    }
-  }, []);
-
-  const fetchPostsList = async () => {
-    const res = await getPosts().unwrap();
-    dispatch(setPosts([...res]));
-  };
-
-  return isLoading ? (
+  return isLoading || isFetching ? (
     <Loader />
   ) : postList.length > 0 ? (
     <>

@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useGetPostMutation } from "../../slices/postsApiSlice";
+import { useGetPostQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import PostDeleteButton from "./PostDeleteButton";
 
 const PostScreen = () => {
   let { postId } = useParams();
-  const [post, setPost] = useState(undefined);
   const { userInfo } = useSelector((state) => state.auth);
-  const [getPost, { isLoading }] = useGetPostMutation();
+  const { data: post, isLoading, isFetching } = useGetPostQuery(postId);
 
-  const fetchPost = async () => {
-    const res = await getPost(postId).unwrap();
-    setPost(res);
-  };
-
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
-  return isLoading ? (
+  return isLoading || isFetching ? (
     <Loader />
   ) : post ? (
     <>

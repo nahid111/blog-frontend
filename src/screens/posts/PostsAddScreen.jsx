@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import FormContainer from "../../components/FormContainer";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useCreatePostsMutation } from "../../slices/postsApiSlice";
-import { setPosts } from "../../slices/postsSlice";
-import { useGetCategoriesMutation } from "../../slices/categoriesApiSlice";
-import { setCategories } from "../../slices/categoriesSlice";
+import { useCreatePostsMutation } from "../../slices/postsApi";
+import { useGetCategoriesQuery } from "../../slices/categoriesApi";
 import Loader from "../../components/Loader";
 
 const PostsAddScreen = () => {
@@ -15,19 +12,9 @@ const PostsAddScreen = () => {
   const [cvrImgUrl, setCvrImgUrl] = useState("");
   const [cats, setCats] = useState([]);
 
-  const { categoryList } = useSelector((state) => state.categories);
-  const [getCategories] = useGetCategoriesMutation();
-  const [createPost, { isLoading }] = useCreatePostsMutation();
-  const dispatch = useDispatch();
+  const { data: categoryList, isLoading, isFetching } = useGetCategoriesQuery();
+  const [createPost] = useCreatePostsMutation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getCategories()
-      .unwrap()
-      .then((res) => {
-        dispatch(setCategories([...res]));
-      });
-  }, []);
 
   const handleCategorySelectChange = (e) => {
     e.preventDefault();
@@ -43,14 +30,13 @@ const PostsAddScreen = () => {
       body: body,
       cover_img_url: cvrImgUrl,
       categories: cats
-    }).unwrap();
-    dispatch(setPosts([]));
+    });
     navigate("/posts");
   };
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <Loader />
       ) : (
         <FormContainer>

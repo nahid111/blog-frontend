@@ -3,32 +3,36 @@ const URL_PREFIX = "/api/v1/posts/";
 
 export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.mutation({
-      query: () => ({ url: URL_PREFIX, method: "GET" })
+    getPost: builder.query({
+      query: (id) => `${URL_PREFIX}/${id}`,
+    }),
+    getPosts: builder.query({
+      query: () => URL_PREFIX,
+      providesTags: ["PostsTag"]
     }),
     createPosts: builder.mutation({
-      query: (data) => ({ url: URL_PREFIX, method: "POST", body: data })
-    }),
-    getPost: builder.mutation({
-      query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "GET" })
+      query: (data) => ({ url: URL_PREFIX, method: "POST", body: data }),
+      invalidatesTags: ["PostsTag"]
     }),
     deletePost: builder.mutation({
       query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" }),
-      validateStatus: (response) => response.status === 204
+      validateStatus: (response) => response.status === 204,
+      invalidatesTags: ["PostsTag"]
     }),
     updatePost: builder.mutation({
       query: (data, id) => ({
         url: `${URL_PREFIX}/${id}`,
         method: "PUT",
         body: data
-      })
+      }),
+      invalidatesTags: ["PostsTag"]
     })
   })
 });
 
 export const {
-  useGetPostsMutation,
-  useGetPostMutation,
+  useGetPostQuery,
+  useGetPostsQuery,
   useCreatePostsMutation,
   useDeletePostMutation,
   useUpdatePostMutation
