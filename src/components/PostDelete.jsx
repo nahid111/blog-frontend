@@ -21,7 +21,7 @@ const PostDelete = ({ postId }) => {
     <>
       <button
         type="button"
-        className="btn btn-danger btn-lg"
+        className="btn btn-outline-danger"
         onClick={removePost}
         disabled={isLoading}
       >
@@ -32,7 +32,7 @@ const PostDelete = ({ postId }) => {
 };
 
 PostDelete.propTypes = {
-  postId: PropTypes.number
+  postId: PropTypes.string
 };
 
 export default PostDelete;

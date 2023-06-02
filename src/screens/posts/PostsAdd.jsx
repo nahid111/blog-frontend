@@ -94,7 +94,7 @@ const PostsAdd = () => {
                   )}
 
                   <Button type="submit" variant="primary" className="mt-3">
-                    Upload
+                    Submit
                   </Button>
                 </Form>
               </Col>

@@ -2,6 +2,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
+import {FaPlus} from "react-icons/fa";
 
 const PostsList = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -19,7 +20,7 @@ const PostsList = () => {
           {userInfo && (
             <LinkContainer to="/posts/add">
               <button type="button" className="btn btn-outline-primary">
-                Add Post
+                <FaPlus /> Add Post
               </button>
             </LinkContainer>
           )}

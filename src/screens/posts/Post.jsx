@@ -25,7 +25,7 @@ const Post = () => {
             <>
               <PostDelete postId={postId} />
               <LinkContainer to={`/posts/${postId}/update`}>
-                <button type="button" className="btn btn-lg btn-success mx-2">
+                <button type="button" className="btn btn-outline-success mx-2">
                   <FaPencilAlt /> Update
                 </button>
               </LinkContainer>

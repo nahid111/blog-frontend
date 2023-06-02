@@ -52,7 +52,7 @@ const CommentsAdd = ({ postId, authorId }) => {
 };
 
 CommentsAdd.propTypes = {
-  postId: PropTypes.number,
+  postId: PropTypes.string,
   authorId: PropTypes.number
 };
 
