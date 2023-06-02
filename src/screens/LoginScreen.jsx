@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
@@ -27,15 +26,9 @@ const LoginScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      // toast.success("Successfully signed in");
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      toast.error(err?.data?.detail, { theme: "colored" });
-    }
+    const res = await login({ email, password }).unwrap();
+    dispatch(setCredentials({ ...res }));
+    navigate("/");
   };
 
   return (

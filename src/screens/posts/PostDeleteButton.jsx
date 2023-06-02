@@ -13,17 +13,10 @@ const PostDeleteButton = ({ postId }) => {
   const removePost = async (e) => {
     e.preventDefault();
     if (window.confirm("Delete the item?")) {
-      try {
-        const res = await deletePost(postId).unwrap();
-        res && toast.success("Post deleted");
-        dispatch(setPosts([]));
-        navigate("/posts");
-      } catch (err) {
-        if (err.status === 401) {
-          toast.error("Token expired. Please Sign-in");
-        }
-        console.log(err);
-      }
+      await deletePost(postId).unwrap();
+      toast.success("Post deleted");
+      dispatch(setPosts([]));
+      navigate("/posts");
     }
   };
 

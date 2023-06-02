@@ -3,14 +3,10 @@ import { Form, Button } from "react-bootstrap";
 import FormContainer from "../../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useCreatePostsMutation,
-  useGetPostsMutation
-} from "../../slices/postsApiSlice";
+import { useCreatePostsMutation } from "../../slices/postsApiSlice";
 import { setPosts } from "../../slices/postsSlice";
 import { useGetCategoriesMutation } from "../../slices/categoriesApiSlice";
 import { setCategories } from "../../slices/categoriesSlice";
-import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 
 const PostsAddScreen = () => {
@@ -21,7 +17,6 @@ const PostsAddScreen = () => {
 
   const { categoryList } = useSelector((state) => state.categories);
   const [getCategories] = useGetCategoriesMutation();
-  const [getPosts] = useGetPostsMutation();
   const [createPost, { isLoading }] = useCreatePostsMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,42 +36,16 @@ const PostsAddScreen = () => {
     setCats(vals);
   };
 
-  const refreshPosts = async () => {
-    try {
-      const res = await getPosts().unwrap();
-      dispatch(setPosts([...res]));
-      navigate("/posts");
-    } catch (err) {
-      if (err.originalStatus === 500) {
-        toast.error("Something went wrong!", { theme: "colored" });
-      }
-      console.log(err);
-    }
-  };
-
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await createPost({
-        title: title,
-        body: body,
-        cover_img_url: cvrImgUrl,
-        categories: cats
-      }).unwrap();
-      if (res) {
-        await refreshPosts();
-      }
-    } catch (err) {
-      if (err.originalStatus === 500) {
-        toast.error("Something went wrong!", { theme: "colored" });
-      }
-      if (err.status === 400) {
-        for (let key in err.data) {
-          toast.error(`${key}: ${err.data[key][0]}`);
-        }
-      }
-      console.log(err);
-    }
+    await createPost({
+      title: title,
+      body: body,
+      cover_img_url: cvrImgUrl,
+      categories: cats
+    }).unwrap();
+    dispatch(setPosts([]));
+    navigate("/posts");
   };
 
   return (

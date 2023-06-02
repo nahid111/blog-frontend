@@ -21,13 +21,9 @@ const ProfileScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await updateUser({ name, email }).unwrap();
-      dispatch(setCredentials({ ...userInfo, ...res }));
-      toast.success("Successfully updated user");
-    } catch (err) {
-      toast.error(err?.data?.detail, { theme: "colored" });
-    }
+    const res = await updateUser({ name, email }).unwrap();
+    dispatch(setCredentials({ ...userInfo, ...res }));
+    toast.success("Successfully updated user");
   };
 
   return (
@@ -48,7 +44,7 @@ const ProfileScreen = () => {
                 disabled
               ></Form.Control>
             </Form.Group>
-            
+
             <Form.Group className="my-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control

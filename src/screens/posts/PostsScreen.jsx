@@ -3,7 +3,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetPostsMutation } from "../../slices/postsApiSlice";
 import { setPosts } from "../../slices/postsSlice";
-import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 
 const PostsScreen = () => {
@@ -19,12 +18,8 @@ const PostsScreen = () => {
   }, []);
 
   const fetchPostsList = async () => {
-    try {
-      const res = await getPosts().unwrap();
-      dispatch(setPosts([...res]));
-    } catch (err) {
-      toast.error(err?.data?.detail, { theme: "colored" });
-    }
+    const res = await getPosts().unwrap();
+    dispatch(setPosts([...res]));
   };
 
   return isLoading ? (

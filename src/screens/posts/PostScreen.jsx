@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useGetPostMutation } from "../../slices/postsApiSlice";
-import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import PostDeleteButton from "./PostDeleteButton";
 
@@ -13,15 +12,8 @@ const PostScreen = () => {
   const [getPost, { isLoading }] = useGetPostMutation();
 
   const fetchPost = async () => {
-    try {
-      const res = await getPost(postId).unwrap();
-      setPost(res);
-    } catch (err) {
-      if (err.status === 401) {
-        toast.error("Token expired. Please Sign-in");
-      }
-      console.log(err);
-    }
+    const res = await getPost(postId).unwrap();
+    setPost(res);
   };
 
   useEffect(() => {

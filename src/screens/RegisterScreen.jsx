@@ -33,13 +33,9 @@ const RegisterScreen = () => {
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
     } else {
-      try {
-        const res = await register({ name, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        navigate("/");
-      } catch (err) {
-        toast.error(err?.data?.detail, { theme: "colored" });
-      }
+      const res = await register({ name, email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate("/");
     }
   };
 

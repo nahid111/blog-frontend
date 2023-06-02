@@ -11,12 +11,8 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const handleGetUser = async () => {
-    try {
-      const res = await userDetails().unwrap();
-      dispatch(setCredentials({ ...userInfo, ...res }));
-    } catch (err) {
-      console.log(err?.data?.message || err.error);
-    }
+    const res = await userDetails().unwrap();
+    dispatch(setCredentials({ ...userInfo, ...res }));
   };
 
   useEffect(() => {
@@ -25,11 +21,7 @@ const HomeScreen = () => {
     }
   }, []);
 
-  return (
-    <>
-      {isLoading ? <Loader /> : <Hero />}
-    </>
-  );
+  return <>{isLoading ? <Loader /> : <Hero />}</>;
 };
 
 export default HomeScreen;
