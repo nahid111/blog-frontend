@@ -4,7 +4,7 @@ const URL_PREFIX = "/api/v1/posts/";
 export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPost: builder.query({
-      query: (id) => `${URL_PREFIX}/${id}`,
+      query: (id) => `${URL_PREFIX}/${id}`
     }),
     getPosts: builder.query({
       query: () => URL_PREFIX,
@@ -26,6 +26,10 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         body: data
       }),
       invalidatesTags: ["PostsTag"]
+    }),
+    getPostComments: builder.query({
+      query: (id) => `${URL_PREFIX}/${id}/comments/`,
+      providesTags: ["PostCommentsTag"]
     })
   })
 });
@@ -35,5 +39,6 @@ export const {
   useGetPostsQuery,
   useCreatePostsMutation,
   useDeletePostMutation,
-  useUpdatePostMutation
+  useUpdatePostMutation,
+  useGetPostCommentsQuery
 } = postsApiSlice;

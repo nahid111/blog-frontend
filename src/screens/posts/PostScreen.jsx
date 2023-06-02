@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetPostQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import PostDeleteButton from "./PostDeleteButton";
+import PostComments from "./PostComments";
 
 const PostScreen = () => {
   let { postId } = useParams();
@@ -44,6 +45,8 @@ const PostScreen = () => {
       <div className="row">
         <div className="col-md-12">{post.body}</div>
       </div>
+
+      <PostComments postId={postId} />
     </>
   ) : (
     <h1 className="text-danger">No post found</h1>

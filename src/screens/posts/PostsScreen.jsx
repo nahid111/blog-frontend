@@ -27,8 +27,8 @@ const PostsScreen = () => {
       </div>
       <hr />
       {postList.map((post) => (
-        <LinkContainer key={post.id} to={`/posts/${post.id}`}>
-          <a style={{ textDecoration: "None" }}>
+        <LinkContainer key={post.id} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
+          <a>
             <div className="card mb-3 border-light bg-secondary bg-opacity-10">
               <div className="row g-0">
                 <div className="col-md-3">
