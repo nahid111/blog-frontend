@@ -3,11 +3,11 @@ import { useCreateCommentMutation } from "../slices/commentsApi";
 import { Form, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const CommentsAdd = ({ postId, authorId }) => {
+const CommentsAdd = ({ postId, authorId }: {postId: string, authorId: number}) => {
   const [body, setBody] = useState("");
   const [createComment, { isLoading }] = useCreateCommentMutation();
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await createComment({ body: body, post: postId, author: authorId });
   };

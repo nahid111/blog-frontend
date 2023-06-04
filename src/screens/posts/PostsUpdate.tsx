@@ -20,16 +20,21 @@ const PostsUpdate = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [cvrImgUrl, setCvrImgUrl] = useState("");
-  const [cats, setCats] = useState([]);
+  const [cats, setCats] = useState<number[]>([]);
 
-  const handleCategorySelectChange = (e) => {
+  const handleCategorySelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     e.preventDefault();
-    const options = e.target.selectedOptions;
-    const vals = [].slice.call(options).map((item) => parseInt(item.value));
-    setCats(vals);
+    const selectedOptions = e.currentTarget.selectedOptions;
+    const vals = [];
+    for (let i = 0; i < selectedOptions.length; i++) {
+      vals.push(selectedOptions[i].value);
+    }
+    setCats(vals.map((v) => parseInt(v)));
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updatePost({
       data: {
@@ -47,7 +52,7 @@ const PostsUpdate = () => {
     setTitle(post.title);
     setBody(post.body);
     setCvrImgUrl(post.cover_img_url);
-    setCats((cats) => postCategories.map((c) => c.id));
+    setCats((cats) => postCategories.map((c: { id: number }) => c.id));
   };
 
   useEffect(() => {
@@ -105,11 +110,13 @@ const PostsUpdate = () => {
                         onChange={handleCategorySelectChange}
                         required
                       >
-                        {categoryList.map((cat) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.title}
-                          </option>
-                        ))}
+                        {categoryList.map(
+                          (c: { id: number; title: string }) => (
+                            <option key={c.id} value={c.id}>
+                              {c.title}
+                            </option>
+                          )
+                        )}
                       </Form.Select>
                     </Form.Group>
                   )}

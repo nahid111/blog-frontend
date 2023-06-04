@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import { FaPlus } from "react-icons/fa";
+import { Post } from "../../appTypes";
 
 const PostsList = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -27,11 +28,11 @@ const PostsList = () => {
         </div>
       </div>
       <hr />
-      {postList.map((post) => (
+      {postList.map((post: Post) => (
         <LinkContainer
           key={post.id}
           to={`/posts/${post.id}`}
-          style={{ textDecoration: "none" }}
+          className="text-decoration-none"
         >
           <a>
             <div className="card mb-3 border-light bg-secondary bg-opacity-10">

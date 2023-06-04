@@ -3,7 +3,7 @@ import { useGetPostCommentsQuery } from "../slices/postsApi";
 import CommentsAdd from "./CommentsAdd";
 import PropTypes from "prop-types";
 
-const Comments = ({ postId }) => {
+const Comments = ({ postId }: { postId: string }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const {
     data: comments,

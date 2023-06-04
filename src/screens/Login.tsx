@@ -24,7 +24,7 @@ const Login = () => {
     }
   }, [navigate, userInfo]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login({ email, password }).unwrap();
     dispatch(setCredentials({ ...res }));

@@ -25,7 +25,7 @@ const Register = () => {
     }
   }, [navigate, userInfo]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {

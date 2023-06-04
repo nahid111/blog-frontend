@@ -23,7 +23,7 @@ const Post = () => {
         <div className="col-md-4 text-end">
           {userInfo && userInfo.email === post.author && (
             <>
-              <PostDelete postId={postId} />
+              <PostDelete postId={postId || ''} />
               <LinkContainer to={`/posts/${postId}/update`}>
                 <button type="button" className="btn btn-outline-success mx-2">
                   <FaPencilAlt /> Update
@@ -55,7 +55,7 @@ const Post = () => {
         <div className="col-md-12">{post.body}</div>
       </div>
 
-      <Comments postId={postId} />
+      <Comments postId={postId || ''} />
     </>
   ) : (
     <h1 className="text-danger">No post found</h1>

@@ -19,7 +19,7 @@ const Profile = () => {
     setEmail(userInfo.email);
   }, [userInfo.email, userInfo.name]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await updateUser({ name, email }).unwrap();
     dispatch(setCredentials({ ...userInfo, ...res }));
