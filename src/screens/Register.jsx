@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRegisterMutation } from "../slices/usersApi";
-import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 
 const Register = () => {
@@ -14,7 +13,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
@@ -33,8 +31,8 @@ const Register = () => {
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
     } else {
-      const res = await register({ name, email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
+      await register({ name, email, password }).unwrap();
+      toast.success("Congratulations. Sign in to continue");
       navigate("/");
     }
   };

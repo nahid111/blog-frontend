@@ -16,11 +16,12 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
-    console.log("%cRefreshing Token", "background-color: yellow;");
-    // try to get a new token
+    console.log(
+      "%c Refreshing Token ",
+      "background-color: lightblue; color: black"
+    );
     const userInfo = api.getState().auth.userInfo;
     if (userInfo && userInfo.refresh) {
-      console.log(userInfo.refresh);
       const refreshResult = await baseQuery(
         {
           url: "/api/v1/token/refresh/",

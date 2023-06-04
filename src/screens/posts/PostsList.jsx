@@ -2,7 +2,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
-import {FaPlus} from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 const PostsList = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -28,7 +28,11 @@ const PostsList = () => {
       </div>
       <hr />
       {postList.map((post) => (
-        <LinkContainer key={post.id} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
+        <LinkContainer
+          key={post.id}
+          to={`/posts/${post.id}`}
+          style={{ textDecoration: "none" }}
+        >
           <a>
             <div className="card mb-3 border-light bg-secondary bg-opacity-10">
               <div className="row g-0">
@@ -49,7 +53,16 @@ const PostsList = () => {
                           .reverse()
                           .join("-")}
                       </p>
-                      <p>{post.categories.map((cat) => cat + " ")}</p>
+                      <p>
+                        {post.categories.map((cat) => (
+                          <span
+                            key={cat}
+                            className="mx-1 px-1 rounded bg-primary text-light"
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </p>
                     </div>
                   </div>
                 </div>
