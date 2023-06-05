@@ -8,6 +8,12 @@ import {
 } from "../../slices/postsApi";
 import { useGetCategoriesQuery } from "../../slices/categoriesApi";
 import Loader from "../../components/Loader";
+import Select, { MultiValue, ActionMeta } from "react-select";
+
+type CatOp = {
+  value: number;
+  label: string;
+};
 
 const PostsUpdate = () => {
   let { postId } = useParams();
@@ -17,22 +23,20 @@ const PostsUpdate = () => {
   const [updatePost] = useUpdatePostMutation();
   const navigate = useNavigate();
 
+  const [selectedOptions, setSelectedOptions] = useState<readonly CatOp[]>([]);
+  const selectOptions = categoryList?.map((cat) => {
+    return { value: cat.id, label: cat.title };
+  });
+  const handleSelect = (
+    newValue: MultiValue<CatOp>,
+    actionMeta: ActionMeta<CatOp>
+  ) => {
+    setSelectedOptions(newValue);
+  };
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [cvrImgUrl, setCvrImgUrl] = useState("");
-  const [cats, setCats] = useState<number[]>([]);
-
-  const handleCategorySelectChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    e.preventDefault();
-    const selectedOptions = e.currentTarget.selectedOptions;
-    const vals = [];
-    for (let i = 0; i < selectedOptions.length; i++) {
-      vals.push(selectedOptions[i].value);
-    }
-    setCats(vals.map((v) => parseInt(v)));
-  };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +45,7 @@ const PostsUpdate = () => {
         title: title,
         body: body,
         cover_img_url: cvrImgUrl,
-        categories: cats
+        categories: selectedOptions?.map((s) => s!.value)
       },
       id: postId
     });
@@ -52,7 +56,11 @@ const PostsUpdate = () => {
     setTitle(post!.title);
     setBody(post!.body);
     setCvrImgUrl(post!.cover_img_url);
-    setCats((cats) => postCategories.map((c: { id: number }) => c.id));
+    setSelectedOptions((selectedOptions) =>
+      postCategories.map((c: { id: number; title: string }) => {
+        return { value: c.id, label: c.title };
+      })
+    );
   };
 
   useEffect(() => {
@@ -103,21 +111,12 @@ const PostsUpdate = () => {
                   {categoryList && categoryList.length > 0 && (
                     <Form.Group className="my-3" controlId="body">
                       <Form.Label>Categories</Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        multiple
-                        value={cats}
-                        onChange={handleCategorySelectChange}
-                        required
-                      >
-                        {categoryList.map(
-                          (c: { id: number; title: string }) => (
-                            <option key={c.id} value={c.id}>
-                              {c.title}
-                            </option>
-                          )
-                        )}
-                      </Form.Select>
+                      <Select
+                        isMulti
+                        options={selectOptions}
+                        value={selectedOptions}
+                        onChange={handleSelect}
+                      />
                     </Form.Group>
                   )}
 

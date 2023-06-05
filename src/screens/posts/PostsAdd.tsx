@@ -4,27 +4,31 @@ import { useNavigate } from "react-router-dom";
 import { useCreatePostsMutation } from "../../slices/postsApi";
 import { useGetCategoriesQuery } from "../../slices/categoriesApi";
 import Loader from "../../components/Loader";
+import Select, { MultiValue, ActionMeta } from "react-select";
+
+type CatOp = {
+  value: number;
+  label: string;
+};
 
 const PostsAdd = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [cvrImgUrl, setCvrImgUrl] = useState("");
-  const [cats, setCats] = useState<number[]>([]);
 
   const { data: categoryList, isLoading, isFetching } = useGetCategoriesQuery();
   const [createPost] = useCreatePostsMutation();
   const navigate = useNavigate();
 
-  const handleCategorySelectChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
+  const [selectedOptions, setSelectedOptions] = useState<readonly CatOp[]>([]);
+  const selectOptions = categoryList?.map((cat) => {
+    return { value: cat.id, label: cat.title };
+  });
+  const handleSelect = (
+    newValue: MultiValue<CatOp>,
+    actionMeta: ActionMeta<CatOp>
   ) => {
-    e.preventDefault();
-    const selectedOptions = e.currentTarget.selectedOptions;
-    const vals = [];
-    for (let i = 0; i < selectedOptions.length; i++) {
-      vals.push(selectedOptions[i].value);
-    }
-    setCats(vals.map((v) => parseInt(v)));
+    setSelectedOptions(newValue);
   };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +37,7 @@ const PostsAdd = () => {
       title: title,
       body: body,
       cover_img_url: cvrImgUrl,
-      categories: cats
+      categories: selectedOptions?.map((s) => s!.value)
     });
     navigate("/posts");
   };
@@ -82,21 +86,12 @@ const PostsAdd = () => {
                   {categoryList!.length > 0 && (
                     <Form.Group className="my-3" controlId="body">
                       <Form.Label>Categories</Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        multiple
-                        value={cats}
-                        onChange={handleCategorySelectChange}
-                        required
-                      >
-                        {categoryList!.map(
-                          (cat: { id: number; title: string }) => (
-                            <option key={cat.id} value={cat.id}>
-                              {cat.title}
-                            </option>
-                          )
-                        )}
-                      </Form.Select>
+                      <Select
+                        isMulti
+                        options={selectOptions}
+                        value={selectedOptions}
+                        onChange={handleSelect}
+                      />
                     </Form.Group>
                   )}
 

@@ -11,7 +11,7 @@ import type { Post } from "../../types";
 const Post = () => {
   let { postId } = useParams();
   const { userInfo } = useAppSelector((state) => state.auth);
-  const { data: post, isLoading, isFetching } = useGetPostQuery(postId);
+  const { data: post, isLoading, isFetching } = useGetPostQuery(postId!);
 
   return isLoading || isFetching ? (
     <Loader />
