@@ -1,16 +1,17 @@
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../slices/hooks";
 import { useGetPostsQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import { FaPlus } from "react-icons/fa";
+import { Post } from "../../types";
 
 const PostsList = () => {
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
   const { data: postList, isLoading, isFetching } = useGetPostsQuery();
 
   return isLoading || isFetching ? (
     <Loader />
-  ) : postList.length > 0 ? (
+  ) : postList!.length > 0 ? (
     <>
       <div className="row mt-4">
         <div className="col-md-8">
@@ -27,11 +28,11 @@ const PostsList = () => {
         </div>
       </div>
       <hr />
-      {postList.map((post) => (
+      {postList!.map((post: Post) => (
         <LinkContainer
           key={post.id}
           to={`/posts/${post.id}`}
-          style={{ textDecoration: "none" }}
+          className="text-decoration-none"
         >
           <a>
             <div className="card mb-3 border-light bg-secondary bg-opacity-10">

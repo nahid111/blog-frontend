@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import store from "./store";
 import { Provider } from "react-redux";
-import Routes from "./Routes.jsx";
+import Routes from "./Routes";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <React.StrictMode>
       <Routes />

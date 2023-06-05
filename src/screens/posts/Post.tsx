@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../slices/hooks";
 import { useGetPostQuery } from "../../slices/postsApi";
 import Loader from "../../components/Loader";
 import PostDelete from "../../components/PostDelete";
 import Comments from "../../components/Comments";
 import { FaPencilAlt } from "react-icons/fa";
+import type { Post } from "../../types";
 
 const Post = () => {
   let { postId } = useParams();
-  const { userInfo } = useSelector((state) => state.auth);
-  const { data: post, isLoading, isFetching } = useGetPostQuery(postId);
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const { data: post, isLoading, isFetching } = useGetPostQuery(postId!);
 
   return isLoading || isFetching ? (
     <Loader />
@@ -23,7 +24,7 @@ const Post = () => {
         <div className="col-md-4 text-end">
           {userInfo && userInfo.email === post.author && (
             <>
-              <PostDelete postId={postId} />
+              <PostDelete postId={postId!} />
               <LinkContainer to={`/posts/${postId}/update`}>
                 <button type="button" className="btn btn-outline-success mx-2">
                   <FaPencilAlt /> Update
@@ -34,7 +35,7 @@ const Post = () => {
         </div>
       </div>
       <p>
-        {post.categories.map((cat) => (
+        {post.categories.map((cat: string) => (
           <span key={cat} className="badge fs-6 text-bg-warning mx-1">
             {cat}
           </span>
@@ -55,7 +56,7 @@ const Post = () => {
         <div className="col-md-12">{post.body}</div>
       </div>
 
-      <Comments postId={postId} />
+      <Comments postId={postId!} />
     </>
   ) : (
     <h1 className="text-danger">No post found</h1>

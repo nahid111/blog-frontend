@@ -1,11 +1,17 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError
+} from "@reduxjs/toolkit/query";
+import type { RootState, AppDispatch } from "../store";
 import { logout, tokenReceived } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "", // leave empty when using proxy
   prepareHeaders: (headers, { getState }) => {
     // set access token if available
-    const userInfo = getState().auth.userInfo;
+    const userInfo = (getState() as RootState).auth.userInfo;
     if (userInfo && userInfo.access) {
       headers.set("authorization", `Bearer ${userInfo.access}`);
     }
@@ -13,14 +19,18 @@ const baseQuery = fetchBaseQuery({
   }
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
     console.log(
       "%c Refreshing Token ",
       "background-color: lightblue; color: black"
     );
-    const userInfo = api.getState().auth.userInfo;
+    const userInfo = (api.getState() as RootState).auth.userInfo;
     if (userInfo && userInfo.refresh) {
       const refreshResult = await baseQuery(
         {
@@ -46,6 +56,13 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["User"],
+  tagTypes: [
+    "CategoriesTag",
+    "CommentsTag",
+    "PostTag",
+    "PostsTag",
+    "PostCommentsTag",
+    "PostCategoriesTag"
+  ],
   endpoints: (builder) => ({})
 });

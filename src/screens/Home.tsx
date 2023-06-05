@@ -1,15 +1,15 @@
 import { Container, Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../slices/hooks";
 import { useUserDetailsMutation } from "../slices/usersApi";
 import { setCredentials } from "../slices/authSlice";
 import Loader from "../components/Loader";
 
 const Home = () => {
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
   const [userDetails, { isLoading }] = useUserDetailsMutation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleGetUser = async () => {
     const res = await userDetails().unwrap();
@@ -18,7 +18,7 @@ const Home = () => {
 
   useEffect(() => {
     if (userInfo && !userInfo.email) {
-      handleGetUser(userInfo.access);
+      handleGetUser();
     }
   }, []);
 

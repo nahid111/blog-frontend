@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../slices/hooks";
 import { useLoginMutation } from "../slices/usersApi";
 import { setCredentials } from "../slices/authSlice";
 import Loader from "../components/Loader";
@@ -11,12 +11,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (userInfo) {
@@ -24,7 +24,7 @@ const Login = () => {
     }
   }, [navigate, userInfo]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login({ email, password }).unwrap();
     dispatch(setCredentials({ ...res }));

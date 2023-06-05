@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
 import PropTypes from "prop-types";
 
-const PostDelete = ({ postId }) => {
+const PostDelete = ({ postId }: { postId: string }) => {
   const navigate = useNavigate();
   const [deletePost, { isLoading }] = useDeletePostMutation();
 
-  const removePost = async (e) => {
+  const removePost = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (window.confirm("Delete the item?")) {
       await deletePost(postId);

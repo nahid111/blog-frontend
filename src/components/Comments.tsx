@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../slices/hooks";
 import { useGetPostCommentsQuery } from "../slices/postsApi";
 import CommentsAdd from "./CommentsAdd";
+import type { Comment } from "../types";
 import PropTypes from "prop-types";
 
-const Comments = ({ postId }) => {
-  const { userInfo } = useSelector((state) => state.auth);
+const Comments = ({ postId }: { postId: string }) => {
+  const { userInfo } = useAppSelector((state) => state.auth);
   const {
     data: comments,
     isLoading,
@@ -25,7 +26,7 @@ const Comments = ({ postId }) => {
                 <p className="text-primary">Sign in to add a comment</p>
               )}
 
-              {comments.map((comment) => (
+              {comments.map((comment: Comment) => (
                 <div key={comment.id} className="card mb-4">
                   <div className="card-body">
                     <p>{comment.body}</p>

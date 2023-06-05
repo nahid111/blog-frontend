@@ -1,12 +1,13 @@
 import { apiSlice } from "./apiSlice";
+import type { Category } from "../types";
+
 const URL_PREFIX = "/api/v1/categories/";
 
 export const categoriesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCategories: builder.query({
+    getCategories: builder.query<Category[], void>({
       query: () => URL_PREFIX,
-      providesTags: ["CategoriesTag"],
-      invalidatesTags: ["PostCategoriesTag"]
+      providesTags: ["CategoriesTag"]
     }),
     createCategory: builder.mutation({
       query: (data) => ({ url: URL_PREFIX, method: "POST", body: data }),

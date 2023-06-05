@@ -4,31 +4,40 @@ import { useNavigate } from "react-router-dom";
 import { useCreatePostsMutation } from "../../slices/postsApi";
 import { useGetCategoriesQuery } from "../../slices/categoriesApi";
 import Loader from "../../components/Loader";
+import Select, { MultiValue, ActionMeta } from "react-select";
+
+type CatOp = {
+  value: number;
+  label: string;
+};
 
 const PostsAdd = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [cvrImgUrl, setCvrImgUrl] = useState("");
-  const [cats, setCats] = useState([]);
 
   const { data: categoryList, isLoading, isFetching } = useGetCategoriesQuery();
   const [createPost] = useCreatePostsMutation();
   const navigate = useNavigate();
 
-  const handleCategorySelectChange = (e) => {
-    e.preventDefault();
-    const options = e.target.selectedOptions;
-    const vals = [].slice.call(options).map((item) => parseInt(item.value));
-    setCats(vals);
+  const [selectedOptions, setSelectedOptions] = useState<readonly CatOp[]>([]);
+  const selectOptions = categoryList?.map((cat) => {
+    return { value: cat.id, label: cat.title };
+  });
+  const handleSelect = (
+    newValue: MultiValue<CatOp>,
+    actionMeta: ActionMeta<CatOp>
+  ) => {
+    setSelectedOptions(newValue);
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await createPost({
       title: title,
       body: body,
       cover_img_url: cvrImgUrl,
-      categories: cats
+      categories: selectedOptions?.map((s) => s!.value)
     });
     navigate("/posts");
   };
@@ -74,22 +83,15 @@ const PostsAdd = () => {
                     />
                   </Form.Group>
 
-                  {categoryList.length > 0 && (
+                  {categoryList!.length > 0 && (
                     <Form.Group className="my-3" controlId="body">
                       <Form.Label>Categories</Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        multiple
-                        value={cats}
-                        onChange={handleCategorySelectChange}
-                        required
-                      >
-                        {categoryList.map((cat) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.title}
-                          </option>
-                        ))}
-                      </Form.Select>
+                      <Select
+                        isMulti
+                        options={selectOptions}
+                        value={selectedOptions}
+                        onChange={handleSelect}
+                      />
                     </Form.Group>
                   )}
 

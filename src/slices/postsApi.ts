@@ -1,13 +1,15 @@
 import { apiSlice } from "./apiSlice";
+import type { Post } from "../types";
+
 const URL_PREFIX = "/api/v1/posts/";
 
 export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPost: builder.query({
+    getPost: builder.query<Post, string>({
       query: (id) => `${URL_PREFIX}/${id}`,
       providesTags: ["PostTag"]
     }),
-    getPosts: builder.query({
+    getPosts: builder.query<Post[], void>({
       query: () => URL_PREFIX,
       providesTags: ["PostsTag"]
     }),
@@ -17,7 +19,6 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     deletePost: builder.mutation({
       query: (id) => ({ url: `${URL_PREFIX}/${id}`, method: "DELETE" }),
-      validateStatus: (response) => response.status === 204,
       invalidatesTags: ["PostsTag"]
     }),
     updatePost: builder.mutation({

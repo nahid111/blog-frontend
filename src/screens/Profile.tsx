@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../slices/hooks";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
@@ -10,16 +10,16 @@ import { setCredentials } from "../slices/authSlice";
 const Profile = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector((state) => state.auth);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+    setName((name) => userInfo?.name || "");
+    setEmail((email) => userInfo?.email || "");
+  }, [userInfo?.email, userInfo?.name]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await updateUser({ name, email }).unwrap();
     dispatch(setCredentials({ ...userInfo, ...res }));
