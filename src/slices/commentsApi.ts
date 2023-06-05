@@ -1,9 +1,11 @@
 import { apiSlice } from "./apiSlice";
+import type { Comment } from "../types";
+
 const URL_PREFIX = "/api/v1/comments/";
 
 export const commentsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getComments: builder.query({
+    getComments: builder.query<Comment[], void>({
       query: () => URL_PREFIX,
       providesTags: ["CommentsTag"]
     }),

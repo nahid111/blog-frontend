@@ -1,9 +1,10 @@
+import type { User } from "../types";
 import { apiSlice } from "./apiSlice";
 const URL_PREFIX = "/api/v1";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    userDetails: builder.mutation({
+    userDetails: builder.mutation<User, void>({
       query: () => ({
         url: `${URL_PREFIX}/users/current/`,
         method: "GET"

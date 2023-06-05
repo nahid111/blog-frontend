@@ -79,7 +79,7 @@ const PostsAdd = () => {
                     />
                   </Form.Group>
 
-                  {categoryList.length > 0 && (
+                  {categoryList!.length > 0 && (
                     <Form.Group className="my-3" controlId="body">
                       <Form.Label>Categories</Form.Label>
                       <Form.Select
@@ -89,7 +89,7 @@ const PostsAdd = () => {
                         onChange={handleCategorySelectChange}
                         required
                       >
-                        {categoryList.map(
+                        {categoryList!.map(
                           (cat: { id: number; title: string }) => (
                             <option key={cat.id} value={cat.id}>
                               {cat.title}

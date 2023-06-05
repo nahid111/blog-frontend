@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../slices/hooks";
 import { useRegisterMutation } from "../slices/usersApi";
 import { toast } from "react-toastify";
 import FormContainer from "../components/FormContainer";
@@ -17,7 +17,7 @@ const Register = () => {
 
   const [register, { isLoading }] = useRegisterMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (userInfo) {

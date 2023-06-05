@@ -12,7 +12,7 @@ import Loader from "../../components/Loader";
 const PostsUpdate = () => {
   let { postId } = useParams();
   const { data: postCategories } = useGetPostCategoriesQuery(postId);
-  const { data: post, isLoading, isFetching } = useGetPostQuery(postId);
+  const { data: post, isLoading, isFetching } = useGetPostQuery(postId!);
   const { data: categoryList } = useGetCategoriesQuery();
   const [updatePost] = useUpdatePostMutation();
   const navigate = useNavigate();
@@ -49,9 +49,9 @@ const PostsUpdate = () => {
   };
 
   const populate = () => {
-    setTitle(post.title);
-    setBody(post.body);
-    setCvrImgUrl(post.cover_img_url);
+    setTitle(post!.title);
+    setBody(post!.body);
+    setCvrImgUrl(post!.cover_img_url);
     setCats((cats) => postCategories.map((c: { id: number }) => c.id));
   };
 
